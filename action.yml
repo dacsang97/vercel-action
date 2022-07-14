@@ -55,6 +55,10 @@ inputs:
     required: false
     description: 'You can assign a domain to this deployment. Please note that this domain must have been configured in the project. You can use pull request number via `{{PR_NUMBER}}` and branch via `{{BRANCH}}`'
     default: ''
+  vercel-version:
+    required: false
+    description: 'Version Spec of the version to use..'
+    default: '25.1.0'
 
 outputs:
   preview-url:

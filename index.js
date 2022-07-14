@@ -14,6 +14,7 @@ function getGithubCommentInput() {
 const { context } = github;
 
 const githubToken = core.getInput('github-token');
+const vercelVersion = core.getInput('vercel-version')
 const githubComment = getGithubCommentInput();
 const workingDirectory = core.getInput('working-directory');
 
@@ -145,7 +146,7 @@ async function vercelDeploy(ref, commit) {
     args.push('--scope', vercelScope);
   }
 
-  await exec.exec('npx', ['vercel', ...args], options);
+  await exec.exec('npx', [`vercel@${vercelVersion}`, ...args], options);
 
   return myOutput;
 }
@@ -170,7 +171,7 @@ async function vercelInspect(deploymentUrl) {
     options.cwd = workingDirectory;
   }
 
-  const args = ['vercel', 'inspect', deploymentUrl, '-t', vercelToken];
+  const args = [`vercel@${vercelVersion}`, 'inspect', deploymentUrl, '-t', vercelToken];
 
   if (vercelScope) {
     core.info('using scope');
@@ -336,7 +337,7 @@ async function aliasDomainsToDeployment(deploymentUrl) {
   }
   const promises = aliasDomains.map(domain => {
     return exec.exec('npx', [
-      'vercel',
+      `vercel@${vercelVersion}`,
       ...args,
       'alias',
       deploymentUrl,
